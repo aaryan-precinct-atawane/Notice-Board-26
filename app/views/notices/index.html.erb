@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">Notices</h1>
+  <%= link_to "+ Post a Notice", new_notice_path, class: "btn btn-primary" %>
+</div>
+
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <%= link_to "All", notices_path, class: "nav-link #{params[:category].blank? ? 'active' : ''}" %>
+  </li>
+  <% @categories.each do |cat| %>
+    <li class="nav-item">
+      <%= link_to cat, notices_path(category: cat), class: "nav-link #{params[:category] == cat ? 'active' : ''}" %>
+    </li>
+  <% end %>
+</ul>
+
+<% category_colors = { "General" => "secondary", "Event" => "info", "Job" => "success", "Other" => "dark" } %>
+
+<% if @notices.empty? %>
+  <p class="text-muted">No notices yet — be the first to post one.</p>
+<% else %>
+  <% @notices.each do |notice| %>
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="card-title mb-1">
+            <%= link_to notice.title, notice_path(notice), class: "text-decoration-none" %>
+          </h5>
+          <% if notice.pinned? %><span class="badge bg-warning text-dark">📌 Pinned</span><% end %>
+        </div>
+        <span class="badge bg-<%= category_colors[notice.category] || 'secondary' %> mb-2"><%= notice.category %></span>
+        <p class="card-text text-muted small mb-2">
+          by <%= notice.author_name %> · <%= notice.created_at.strftime("%b %d, %Y") %>
+        </p>
+        <%= button_to "Delete", notice_path(notice), method: :delete,
+              data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

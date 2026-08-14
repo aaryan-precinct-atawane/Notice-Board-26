@@ -1,0 +1,39 @@
+<h1 class="mb-4">Post a Notice</h1>
+<% if @notice.errors.any? %>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
+      <% @notice.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @notice, local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :title, class: "form-label" %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :body, class: "form-label" %>
+    <%= f.text_area :body, class: "form-control", rows: 4 %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :author_name, "Your Name", class: "form-label" %>
+    <%= f.text_field :author_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :category, class: "form-label" %>
+    <%= f.select :category, Notice::CATEGORIES, {}, class: "form-select" %>
+  </div>
+
+  <div class="form-check mb-3">
+    <%= f.check_box :pinned, class: "form-check-input" %>
+    <%= f.label :pinned, "Pin this notice", class: "form-check-label" %>
+  </div>
+
+  <%= f.submit "Post Notice", class: "btn btn-primary" %>
+<% end %>

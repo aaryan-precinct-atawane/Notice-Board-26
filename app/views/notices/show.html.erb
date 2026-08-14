@@ -1,0 +1,6 @@
+<h1><%= @notice.title %></h1>
+<p class="text-muted">
+  by <%= @notice.author_name %> — <%= @notice.category %> — <%= @notice.created_at.strftime("%b %d, %Y") %>
+</p>
+<p><%= @notice.body %></p>
+<%= link_to "Back to Notice Board", notices_path, class: "btn btn-secondary" %>
